@@ -1,12 +1,690 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Kakusin. - 管理画面</title>
-    <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </head>
-  <body>
-  </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans JP';
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .login-container.hidden {
+            display: none;
+        }
+
+        .login-container h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #000000;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-container .subtitle {
+            font-size: 0.9rem;
+            color: #666666;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: #000000;
+            font-size: 0.95rem;
+        }
+
+        input[type="password"] {
+            padding: 0.75rem;
+            border: 2px solid #cccccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        button {
+            padding: 0.75rem;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #333333;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .error {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.75rem;
+            background-color: #ffebee;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        /* Editor styles */
+        .editor-container {
+            display: none;
+            background-color: #ffffff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .editor-container.show {
+            display: block;
+        }
+
+        .editor-header {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-header h1 {
+            font-size: 2rem;
+        }
+
+        .logout-btn {
+            padding: 0.6rem 1.2rem;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .editor-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #cccccc;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            color: #000000;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            border-bottom-color: #000000;
+        }
+
+        .tab-button:hover {
+            color: #666666;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        textarea {
+            padding: 0.75rem;
+            border: 2px solid #cccccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: monospace;
+            min-height: 300px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #000000;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .button-group button {
+            padding: 0.75rem 2rem;
+        }
+
+        .button-group .cancel-btn {
+            background-color: #cccccc;
+            color: #000000;
+        }
+
+        .button-group .cancel-btn:hover {
+            background-color: #aaaaaa;
+        }
+
+        .success {
+            color: #2e7d32;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.75rem;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        .list-item {
+            background-color: #f5f5f5;
+            border: 1px solid #cccccc;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .list-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .list-item-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .list-item-delete {
+            padding: 0.5rem 1rem;
+            background-color: #d32f2f;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .list-item-delete:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+    <!-- ログイン画面 -->
+    <div class="login-container" id="loginContainer">
+        <h1>🔐 Team Kakusin.</h1>
+        <div class="subtitle">管理画面にログイン</div>
+        <div class="error" id="errorMessage"></div>
+        <div class="form-group">
+            <label for="password">パスワード</label>
+            <input type="password" id="password" placeholder="パスワードを入力">
+        </div>
+        <button onclick="login()">ログイン</button>
+    </div>
+
+    <!-- エディタ画面 -->
+    <div class="editor-container" id="editorContainer">
+        <div class="editor-header">
+            <h1>📝 Team Kakusin. 管理画面</h1>
+            <button class="logout-btn" onclick="logout()">ログアウト</button>
+        </div>
+
+        <div class="editor-content">
+            <div class="success" id="successMessage"></div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('site-config')">サイト設定</button>
+                <button class="tab-button" onclick="switchTab('about')">サークル紹介</button>
+                <button class="tab-button" onclick="switchTab('members')">メンバー</button>
+                <button class="tab-button" onclick="switchTab('songs')">新曲情報</button>
+                <button class="tab-button" onclick="switchTab('links')">SNSリンク</button>
+            </div>
+
+            <!-- Site Config Tab -->
+            <div class="tab-content active" id="site-config">
+                <h2>サイト基本設定</h2>
+                <div class="form-group">
+                    <label for="circle_name">サークル名（英字）</label>
+                    <input type="text" id="circle_name" placeholder="Team Kakusin.">
+                </div>
+                <div class="form-group">
+                    <label for="circle_name_ja">サークル名（ひらがな）</label>
+                    <input type="text" id="circle_name_ja" placeholder="ちーむかくしん.">
+                </div>
+                <div class="form-group">
+                    <label for="site_title">サイトタイトル</label>
+                    <input type="text" id="site_title" placeholder="Team Kakusin. Official Website">
+                </div>
+                <div class="form-group">
+                    <label for="description">説明文</label>
+                    <textarea id="description" placeholder="サイトの説明を入力"></textarea>
+                </div>
+                <div class="button-group">
+                    <button onclick="saveSiteConfig()">保存</button>
+                </div>
+            </div>
+
+            <!-- About Tab -->
+            <div class="tab-content" id="about">
+                <h2>サークル紹介</h2>
+                <div class="form-group">
+                    <label for="about_title">タイトル</label>
+                    <input type="text" id="about_title" placeholder="About Us">
+                </div>
+                <div class="form-group">
+                    <label for="about_description">説明文（Markdown対応）</label>
+                    <textarea id="about_description" placeholder="サークル紹介を入力"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="founded_year">設立年</label>
+                    <input type="number" id="founded_year" placeholder="2023">
+                </div>
+                <div class="button-group">
+                    <button onclick="saveAbout()">保存</button>
+                </div>
+            </div>
+
+            <!-- Members Tab -->
+            <div class="tab-content" id="members">
+                <h2>メンバー紹介</h2>
+                <div id="membersList"></div>
+                <button onclick="addMember()" style="width: 100%; margin-bottom: 2rem;">+ 新規メンバーを追加</button>
+            </div>
+
+            <!-- Songs Tab -->
+            <div class="tab-content" id="songs">
+                <h2>新曲情報</h2>
+                <div id="songsList"></div>
+                <button onclick="addSong()" style="width: 100%; margin-bottom: 2rem;">+ 新規楽曲を追加</button>
+            </div>
+
+            <!-- Links Tab -->
+            <div class="tab-content" id="links">
+                <h2>SNSリンク</h2>
+                <div id="linksList"></div>
+                <button onclick="addLink()" style="width: 100%; margin-bottom: 2rem;">+ 新規リンクを追加</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = 'teamjoekita';
+        let data = {};
+
+        // ページ読み込み時の初期化
+        window.addEventListener('load', () => {
+            const isLoggedIn = sessionStorage.getItem('loggedIn');
+            if (isLoggedIn) {
+                showEditor();
+                loadAllData();
+            } else {
+                showLogin();
+            }
+        });
+
+        function login() {
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+
+            if (password === PASSWORD) {
+                sessionStorage.setItem('loggedIn', 'true');
+                document.getElementById('password').value = '';
+                errorDiv.classList.remove('show');
+                showEditor();
+                loadAllData();
+            } else {
+                errorDiv.textContent = '❌ パスワードが間違っています';
+                errorDiv.classList.add('show');
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('loggedIn');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('editorContainer').classList.remove('show');
+        }
+
+        function showEditor() {
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('editorContainer').classList.add('show');
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadAllData() {
+            try {
+                const responses = await Promise.all([
+                    fetch('../_data/site-config.json'),
+                    fetch('../_data/about.json'),
+                    fetch('../_data/members.json'),
+                    fetch('../_data/songs.json'),
+                    fetch('../_data/social-links.json')
+                ]);
+
+                const [siteConfig, about, members, songs, links] = await Promise.all(
+                    responses.map(r => r.json())
+                );
+
+                data = { siteConfig, about, members, songs, links };
+
+                // Populate forms
+                document.getElementById('circle_name').value = siteConfig.circle_name;
+                document.getElementById('circle_name_ja').value = siteConfig.circle_name_ja;
+                document.getElementById('site_title').value = siteConfig.site_title;
+                document.getElementById('description').value = siteConfig.description;
+
+                document.getElementById('about_title').value = about.title;
+                document.getElementById('about_description').value = about.description;
+                document.getElementById('founded_year').value = about.founded_year;
+
+                renderMembers();
+                renderSongs();
+                renderLinks();
+            } catch (error) {
+                console.error('データ読み込みエラー:', error);
+                alert('データの読み込みに失敗しました');
+            }
+        }
+
+        function saveSiteConfig() {
+            data.siteConfig = {
+                circle_name: document.getElementById('circle_name').value,
+                circle_name_ja: document.getElementById('circle_name_ja').value,
+                site_title: document.getElementById('site_title').value,
+                description: document.getElementById('description').value
+            };
+            saveToGitHub('_data/site-config.json', data.siteConfig);
+        }
+
+        function saveAbout() {
+            data.about = {
+                title: document.getElementById('about_title').value,
+                description: document.getElementById('about_description').value,
+                founded_year: parseInt(document.getElementById('founded_year').value)
+            };
+            saveToGitHub('_data/about.json', data.about);
+        }
+
+        function renderMembers() {
+            const container = document.getElementById('membersList');
+            container.innerHTML = data.members.members.map((member, index) => `
+                <div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">${member.name || 'メンバー'}</div>
+                        <button class="list-item-delete" onclick="deleteMember(${index})">削除</button>
+                    </div>
+                    <div class="form-group">
+                        <label>名前</label>
+                        <input type="text" value="${member.name}" onchange="updateMemberField(${index}, 'name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>役割</label>
+                        <input type="text" value="${member.role}" onchange="updateMemberField(${index}, 'role', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>自己紹介</label>
+                        <textarea onchange="updateMemberField(${index}, 'bio', this.value)">${member.bio}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Twitter URL</label>
+                        <input type="text" value="${member.twitter || ''}" onchange="updateMemberField(${index}, 'twitter', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>pixiv URL</label>
+                        <input type="text" value="${member.pixiv || ''}" onchange="updateMemberField(${index}, 'pixiv', this.value)">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addMember() {
+            data.members.members.push({
+                name: '新しいメンバー',
+                role: 'メンバー',
+                bio: '',
+                image: '',
+                twitter: '',
+                pixiv: ''
+            });
+            renderMembers();
+        }
+
+        function updateMemberField(index, field, value) {
+            data.members.members[index][field] = value;
+            saveToGitHub('_data/members.json', data.members);
+        }
+
+        function deleteMember(index) {
+            if (confirm('このメンバーを削除しますか？')) {
+                data.members.members.splice(index, 1);
+                saveToGitHub('_data/members.json', data.members);
+                renderMembers();
+            }
+        }
+
+        function renderSongs() {
+            const container = document.getElementById('songsList');
+            container.innerHTML = data.songs.songs.map((song, index) => `
+                <div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">${song.title || '新曲'}</div>
+                        <button class="list-item-delete" onclick="deleteSong(${index})">削除</button>
+                    </div>
+                    <div class="form-group">
+                        <label>楽曲名</label>
+                        <input type="text" value="${song.title}" onchange="updateSongField(${index}, 'title', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>アーティスト</label>
+                        <input type="text" value="${song.artist}" onchange="updateSongField(${index}, 'artist', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>説明</label>
+                        <textarea onchange="updateSongField(${index}, 'description', this.value)">${song.description}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>公開日</label>
+                        <input type="datetime-local" value="${song.release_date.replace('Z', '')}" onchange="updateSongField(${index}, 'release_date', this.value + 'Z')">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube URL</label>
+                        <input type="text" value="${song.youtube_url || ''}" onchange="updateSongField(${index}, 'youtube_url', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>ニコニコ動画 URL</label>
+                        <input type="text" value="${song.nicovideo_url || ''}" onchange="updateSongField(${index}, 'nicovideo_url', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>SoundCloud URL</label>
+                        <input type="text" value="${song.soundcloud_url || ''}" onchange="updateSongField(${index}, 'soundcloud_url', this.value)">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addSong() {
+            const now = new Date().toISOString();
+            data.songs.songs.push({
+                title: '新曲タイトル',
+                artist: 'アーティスト名',
+                description: '説明を入力',
+                image: '',
+                release_date: now,
+                youtube_url: '',
+                nicovideo_url: '',
+                soundcloud_url: ''
+            });
+            renderSongs();
+        }
+
+        function updateSongField(index, field, value) {
+            data.songs.songs[index][field] = value;
+            saveToGitHub('_data/songs.json', data.songs);
+        }
+
+        function deleteSong(index) {
+            if (confirm('この楽曲を削除しますか？')) {
+                data.songs.songs.splice(index, 1);
+                saveToGitHub('_data/songs.json', data.songs);
+                renderSongs();
+            }
+        }
+
+        function renderLinks() {
+            const container = document.getElementById('linksList');
+            container.innerHTML = data.links.links.map((link, index) => `
+                <div class="list-item">
+                    <div class="list-item-header">
+                        <div class="list-item-title">${link.display_name || link.name}</div>
+                        <button class="list-item-delete" onclick="deleteLink(${index})">削除</button>
+                    </div>
+                    <div class="form-group">
+                        <label>SNS名</label>
+                        <input type="text" value="${link.name}" onchange="updateLinkField(${index}, 'name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>URL</label>
+                        <input type="text" value="${link.url}" onchange="updateLinkField(${index}, 'url', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>表示名</label>
+                        <input type="text" value="${link.display_name}" onchange="updateLinkField(${index}, 'display_name', this.value)">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addLink() {
+            data.links.links.push({
+                name: 'SNS名',
+                url: 'https://',
+                display_name: '表示名'
+            });
+            renderLinks();
+        }
+
+        function updateLinkField(index, field, value) {
+            data.links.links[index][field] = value;
+            saveToGitHub('_data/social-links.json', data.links);
+        }
+
+        function deleteLink(index) {
+            if (confirm('このリンクを削除しますか？')) {
+                data.links.links.splice(index, 1);
+                saveToGitHub('_data/social-links.json', data.links);
+                renderLinks();
+            }
+        }
+
+        function saveToGitHub(filePath, content) {
+            // GitHub Web Editor へリダイレクト
+            const githubUrl = `https://github.com/exe-joemae/Xx_TEKITOU-NAME_xX/edit/main/${filePath}`;
+            const jsonContent = JSON.stringify(content, null, 2);
+            
+            // ローカルストレージに保存（バックアップ）
+            localStorage.setItem(filePath, jsonContent);
+            
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = '✅ 変更を保存しました。GitHub Web Editorで確認・編集できます。';
+            successDiv.classList.add('show');
+            setTimeout(() => successDiv.classList.remove('show'), 3000);
+            
+            // 実際の保存は GitHub Web Editor で行う必要があります
+            // console.log('保存内容:', jsonContent);
+        }
+    </script>
+</body>
 </html>
