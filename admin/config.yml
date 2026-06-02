@@ -7,8 +7,6 @@ backend:
 media_folder: "images"
 public_folder: "/images"
 
-local_backend: true
-
 collections:
   - name: "site_config"
     label: "サイト設定"
