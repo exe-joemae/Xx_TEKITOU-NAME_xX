@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Kakusin. - Official Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans JP';
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid #000000;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: #f5f5f5;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #cccccc;
+        }
+
+        nav a {
+            color: #000000;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.6;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 1px solid #cccccc;
+            background-color: #fafafa;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #000000;
+        }
+
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .member-card {
+            border: 1px solid #000000;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 1px solid #cccccc;
+            font-size: 0.9rem;
+            color: #999999;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .member-role {
+            color: #666666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .member-links a {
+            color: #000000;
+            text-decoration: none;
+            border: 1px solid #000000;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .member-links a:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .songs-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .song-card {
+            border-left: 4px solid #000000;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .song-image {
+            width: 150px;
+            height: 150px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #cccccc;
+            font-size: 0.85rem;
+            color: #999999;
+        }
+
+        .song-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .song-artist {
+            color: #666666;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .song-description {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: #333333;
+        }
+
+        .song-date {
+            font-size: 0.85rem;
+            color: #999999;
+            margin-bottom: 1rem;
+        }
+
+        .song-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .song-links a {
+            color: #ffffff;
+            background-color: #000000;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border: 1px solid #000000;
+            transition: all 0.3s;
+        }
+
+        .song-links a:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            color: #000000;
+            background-color: #f0f0f0;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #000000;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            border-top: 3px solid #000000;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f0f0f0;
+            border: 1px solid #cccccc;
+        }
+
+        .admin-link a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid #000000;
+        }
+
+        .admin-link a:hover {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .song-card {
+                grid-template-columns: 1fr;
+            }
+
+            .song-image {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Team Kakusin.</h1>
+        <div class="subtitle">ちーむかくしん.</div>
+    </header>
+
+    <nav>
+        <a href="#about">サークル紹介</a>
+        <a href="#members">メンバー</a>
+        <a href="#songs">新曲情報</a>
+        <a href="#contact">リンク</a>
+    </nav>
+
+    <div class="container">
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Us</h2>
+            <div class="about-content">
+                <p>Team Kakusin. は音楽制作を中心に活動する同人サークルです。</p>
+                <p style="margin-top: 1rem;">様々なジャンルの楽曲を制作・発表しており、各メンバーの個性を活かしながら、クオリティの高い作品を目指しています。</p>
+            </div>
+        </section>
+
+        <!-- Members Section -->
+        <section id="members">
+            <h2>メンバー紹介</h2>
+            <div class="members-grid" id="membersContainer">
+                <p style="grid-column: 1/-1; color: #999;">メンバー情報を読み込み中...</p>
+            </div>
+        </section>
+
+        <!-- Songs Section -->
+        <section id="songs">
+            <h2>新曲情報</h2>
+            <div class="songs-list" id="songsContainer">
+                <p style="color: #999;">楽曲情報を読み込み中...</p>
+            </div>
+        </section>
+
+        <!-- Links Section -->
+        <section id="contact">
+            <h2>SNSリンク</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem;">各種SNSでフォローしてください！</p>
+            <div class="social-links" id="linksContainer">
+                <p style="color: #999; width: 100%; text-align: center;">リンク情報を読み込み中...</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="container">
+        <div class="admin-link">
+            <p><a href="/admin/">🔐 管理画面にログイン（メンバー用）</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Team Kakusin. All rights reserved.</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">This website is created with GitHub Pages & Decap CMS</p>
+    </footer>
+
+    <script>
+        // Load members data
+        fetch('_data/members.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('membersContainer');
+                container.innerHTML = data.members.map(member => `
+                    <div class="member-card">
+                        ${member.image ? `<img src="${member.image}" class="member-image">` : '<div class="member-image">プロフィール画像</div>'}
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-role">${member.role}</div>
+                        <div class="member-bio">${member.bio}</div>
+                        ${member.twitter || member.pixiv ? `
+                            <div class="member-links">
+                                ${member.twitter ? `<a href="${member.twitter}" target="_blank">Twitter</a>` : ''}
+                                ${member.pixiv ? `<a href="${member.pixiv}" target="_blank">pixiv</a>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            })
+            .catch(err => console.error('Error loading members:', err));
+
+        // Load songs data
+        fetch('_data/songs.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('songsContainer');
+                container.innerHTML = data.songs.map(song => `
+                    <div class="song-card">
+                        ${song.image ? `<img src="${song.image}" class="song-image">` : '<div class="song-image">ジャケット画像</div>'}
+                        <div class="song-content">
+                            <h3>${song.title}</h3>
+                            <div class="song-artist">アーティスト: ${song.artist}</div>
+                            <div class="song-description">${song.description}</div>
+                            <div class="song-date">公開日: ${new Date(song.release_date).toLocaleDateString('ja-JP')}</div>
+                            ${song.youtube_url || song.nicovideo_url || song.soundcloud_url ? `
+                                <div class="song-links">
+                                    ${song.youtube_url ? `<a href="${song.youtube_url}" target="_blank">YouTube</a>` : ''}
+                                    ${song.nicovideo_url ? `<a href="${song.nicovideo_url}" target="_blank">ニコニコ動画</a>` : ''}
+                                    ${song.soundcloud_url ? `<a href="${song.soundcloud_url}" target="_blank">SoundCloud</a>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            })
+            .catch(err => console.error('Error loading songs:', err));
+
+        // Load social links
+        fetch('_data/social-links.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('linksContainer');
+                container.innerHTML = data.links.map(link => `
+                    <a href="${link.url}" target="_blank">${link.display_name}</a>
+                `).join('');
+            })
+            .catch(err => console.error('Error loading links:', err));
+    </script>
+</body>
+</html>

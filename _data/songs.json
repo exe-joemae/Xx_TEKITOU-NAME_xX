@@ -1,0 +1,14 @@
+{
+  "songs": [
+    {
+      "title": "楽曲タイトルを入力",
+      "artist": "アーティスト名",
+      "description": "楽曲の説明",
+      "image": "",
+      "release_date": "2026-06-02T00:00:00Z",
+      "youtube_url": "",
+      "nicovideo_url": "",
+      "soundcloud_url": ""
+    }
+  ]
+}

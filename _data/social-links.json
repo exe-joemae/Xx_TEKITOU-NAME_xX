@@ -1,0 +1,19 @@
+{
+  "links": [
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/",
+      "display_name": "Twitter"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/",
+      "display_name": "YouTube"
+    },
+    {
+      "name": "pixiv",
+      "url": "https://www.pixiv.net/",
+      "display_name": "pixiv"
+    }
+  ]
+}

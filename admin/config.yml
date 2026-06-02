@@ -1,0 +1,87 @@
+backend:
+  name: github
+  repo: exe-joemae/Xx_TEKITOU-NAME_xX
+  branch: main
+  auth_endpoint: api/auth
+
+media_folder: "images"
+public_folder: "/images"
+
+local_backend: true
+
+collections:
+  - name: "site_config"
+    label: "サイト設定"
+    files:
+      - name: "general"
+        label: "基本情報"
+        file: "_data/site-config.json"
+        fields:
+          - { label: "サークル名", name: "circle_name", widget: "string", default: "Team Kakusin." }
+          - { label: "ひらがな表記", name: "circle_name_ja", widget: "string", default: "ちーむかくしん." }
+          - { label: "サイトタイトル", name: "site_title", widget: "string", default: "Team Kakusin. Official Website" }
+          - { label: "説明文", name: "description", widget: "text", default: "同人サークル Team Kakusin. の公式サイトです。" }
+
+  - name: "about"
+    label: "サークル紹介"
+    files:
+      - name: "about_page"
+        label: "サークル紹介ページ"
+        file: "_data/about.json"
+        fields:
+          - { label: "タイトル", name: "title", widget: "string", default: "About Us" }
+          - { label: "説明文", name: "description", widget: "markdown" }
+          - { label: "設立年", name: "founded_year", widget: "number" }
+
+  - name: "members"
+    label: "メンバー紹介"
+    files:
+      - name: "members_list"
+        label: "メンバー一覧"
+        file: "_data/members.json"
+        fields:
+          - name: "members"
+            label: "メンバー"
+            widget: "list"
+            fields:
+              - { label: "名前", name: "name", widget: "string" }
+              - { label: "役割", name: "role", widget: "string", default: "メンバー" }
+              - { label: "自己紹介", name: "bio", widget: "text" }
+              - { label: "プロフィール画像", name: "image", widget: "image", required: false }
+              - { label: "Twitter", name: "twitter", widget: "string", required: false }
+              - { label: "pixiv", name: "pixiv", widget: "string", required: false }
+
+  - name: "songs"
+    label: "新曲情報"
+    files:
+      - name: "songs_list"
+        label: "楽曲一覧"
+        file: "_data/songs.json"
+        fields:
+          - name: "songs"
+            label: "楽曲"
+            widget: "list"
+            fields:
+              - { label: "楽曲名", name: "title", widget: "string" }
+              - { label: "アーティスト", name: "artist", widget: "string" }
+              - { label: "説明", name: "description", widget: "text" }
+              - { label: "ジャケット画像", name: "image", widget: "image", required: false }
+              - { label: "公開日", name: "release_date", widget: "datetime" }
+              - { label: "YouTube URL", name: "youtube_url", widget: "string", required: false }
+              - { label: "ニコニコ動画 URL", name: "nicovideo_url", widget: "string", required: false }
+              - { label: "SoundCloud URL", name: "soundcloud_url", widget: "string", required: false }
+
+  - name: "links"
+    label: "SNSリンク"
+    files:
+      - name: "social_links"
+        label: "SNS設定"
+        file: "_data/social-links.json"
+        fields:
+          - name: "links"
+            label: "リンク"
+            widget: "list"
+            fields:
+              - { label: "SNS名", name: "name", widget: "string", options: ["Twitter", "YouTube", "Pixiv", "Instagram", "TikTok", "Discord", "ニコニコ"] }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "表示名", name: "display_name", widget: "string" }
