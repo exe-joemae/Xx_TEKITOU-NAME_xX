@@ -1,0 +1,14 @@
+{
+  "siteName": "Team Kakusin.",
+  "siteNameJa": "ちーむかくしん.",
+  "logo": "",
+  "primaryColor": "#000000",
+  "secondaryColor": "#ffffff",
+  "accentColor": "#333333",
+  "backgroundColor": "#ffffff",
+  "textColor": "#000000",
+  "fontSize": "16px",
+  "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans JP'",
+  "maxWidth": "1200px",
+  "footerText": "© 2026 Team Kakusin. All rights reserved."
+}

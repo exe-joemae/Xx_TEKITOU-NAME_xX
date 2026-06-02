@@ -63,15 +63,26 @@
             font-size: 0.95rem;
         }
 
-        input[type="password"] {
+        input[type="password"],
+        input[type="text"],
+        input[type="color"],
+        input[type="file"],
+        textarea,
+        select {
             padding: 0.75rem;
             border: 2px solid #cccccc;
             border-radius: 4px;
             font-size: 1rem;
             transition: border-color 0.3s;
+            font-family: inherit;
         }
 
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        input[type="text"]:focus,
+        input[type="color"]:focus,
+        input[type="file"]:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: #000000;
         }
@@ -110,30 +121,38 @@
             display: block;
         }
 
-        /* Editor styles */
+        /* Editor Styles */
         .editor-container {
             display: none;
             background-color: #ffffff;
             min-height: 100vh;
-            padding: 2rem;
+            width: 100%;
         }
 
         .editor-container.show {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
         .editor-header {
             background-color: #000000;
             color: #ffffff;
-            padding: 2rem;
-            margin: -2rem -2rem 2rem -2rem;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .editor-header h1 {
-            font-size: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
         }
 
         .logout-btn {
@@ -150,51 +169,79 @@
             background-color: #f0f0f0;
         }
 
-        .editor-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .tabs {
+        .editor-main {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #cccccc;
-            overflow-x: auto;
+            flex: 1;
+            overflow: hidden;
         }
 
-        .tab-button {
-            padding: 0.75rem 1.5rem;
-            background-color: transparent;
-            color: #000000;
-            border: none;
-            border-bottom: 3px solid transparent;
+        .sidebar {
+            width: 250px;
+            background-color: #f5f5f5;
+            border-right: 1px solid #cccccc;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+
+        .sidebar-item {
+            padding: 1rem 1.5rem;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
+            border-left: 3px solid transparent;
             transition: all 0.3s;
         }
 
-        .tab-button.active {
-            border-bottom-color: #000000;
+        .sidebar-item:hover {
+            background-color: #e0e0e0;
         }
 
-        .tab-button:hover {
+        .sidebar-item.active {
+            background-color: #e0e0e0;
+            border-left-color: #000000;
+        }
+
+        .sidebar-section-title {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
             color: #666666;
+            text-transform: uppercase;
         }
 
-        .tab-content {
+        .editor-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            max-width: 100%;
+        }
+
+        .content-panel {
             display: none;
-            animation: fadeIn 0.3s;
         }
 
-        .tab-content.active {
+        .content-panel.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .panel-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #cccccc;
+        }
+
+        .form-section {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0;
+        }
+
+        .form-section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #000000;
         }
 
         .form-group {
@@ -202,18 +249,8 @@
         }
 
         textarea {
-            padding: 0.75rem;
-            border: 2px solid #cccccc;
-            border-radius: 4px;
-            font-size: 1rem;
+            min-height: 150px;
             font-family: monospace;
-            min-height: 300px;
-            transition: border-color 0.3s;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #000000;
         }
 
         .button-group {
@@ -227,67 +264,185 @@
             padding: 0.75rem 2rem;
         }
 
-        .button-group .cancel-btn {
-            background-color: #cccccc;
-            color: #000000;
+        .cancel-btn {
+            background-color: #cccccc !important;
+            color: #000000 !important;
         }
 
-        .button-group .cancel-btn:hover {
-            background-color: #aaaaaa;
+        .cancel-btn:hover {
+            background-color: #aaaaaa !important;
         }
 
         .success {
             color: #2e7d32;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 0.75rem;
+            font-size: 0.95rem;
+            padding: 1rem;
             background-color: #e8f5e9;
             border-radius: 4px;
             display: none;
             margin-bottom: 1rem;
+            border-left: 4px solid #2e7d32;
         }
 
         .success.show {
             display: block;
         }
 
-        .list-item {
-            background-color: #f5f5f5;
-            border: 1px solid #cccccc;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 4px;
+        .block-item {
+            background-color: #ffffff;
+            border: 2px solid #cccccc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
         }
 
-        .list-item-header {
+        .block-item:hover {
+            border-color: #000000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .block-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
         }
 
-        .list-item-title {
+        .block-type {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            color: #666666;
+            text-transform: uppercase;
         }
 
-        .list-item-delete {
-            padding: 0.5rem 1rem;
+        .block-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .block-delete-btn {
+            padding: 0.4rem 0.8rem;
             background-color: #d32f2f;
             color: #ffffff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
-        .list-item-delete:hover {
+        .block-delete-btn:hover {
             background-color: #b71c1c;
+        }
+
+        .add-block-btn {
+            padding: 0.75rem 2rem;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .add-block-btn:hover {
+            background-color: #333333;
+        }
+
+        .block-type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .block-type-option {
+            padding: 1rem;
+            border: 2px solid #cccccc;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            background-color: #ffffff;
+        }
+
+        .block-type-option:hover {
+            border-color: #000000;
+            background-color: #f5f5f5;
+        }
+
+        .color-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        input[type="color"] {
+            width: 60px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 1rem;
+            border-radius: 4px;
+            border: 1px solid #cccccc;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #cccccc;
+            background-color: #ffffff;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .toolbar-btn:hover {
+            background-color: #f0f0f0;
+            border-color: #000000;
+        }
+
+        .toolbar-btn.active {
+            background-color: #000000;
+            color: #ffffff;
+            border-color: #000000;
+        }
+
+        @media (max-width: 768px) {
+            .editor-main {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #cccccc;
+                max-height: 200px;
+            }
+
+            .editor-content {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- ログイン画面 -->
+    <!-- Login Screen -->
     <div class="login-container" id="loginContainer">
         <h1>🔐 Team Kakusin.</h1>
         <div class="subtitle">管理画面にログイン</div>
@@ -299,96 +454,192 @@
         <button onclick="login()">ログイン</button>
     </div>
 
-    <!-- エディタ画面 -->
+    <!-- Editor Screen -->
     <div class="editor-container" id="editorContainer">
         <div class="editor-header">
             <h1>📝 Team Kakusin. 管理画面</h1>
-            <button class="logout-btn" onclick="logout()">ログアウト</button>
+            <div class="header-buttons">
+                <button class="logout-btn" onclick="logout()">ログアウト</button>
+            </div>
         </div>
 
-        <div class="editor-content">
-            <div class="success" id="successMessage"></div>
+        <div class="editor-main">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section-title">📄 ページ管理</div>
+                <div id="pagesList"></div>
+                <button class="add-block-btn" onclick="showNewPageDialog()" style="margin: 1rem; width: calc(100% - 2rem);">+ ページを追加</button>
 
-            <div class="tabs">
-                <button class="tab-button active" onclick="switchTab('site-config')">サイト設定</button>
-                <button class="tab-button" onclick="switchTab('about')">サークル紹介</button>
-                <button class="tab-button" onclick="switchTab('members')">メンバー</button>
-                <button class="tab-button" onclick="switchTab('songs')">新曲情報</button>
-                <button class="tab-button" onclick="switchTab('links')">SNSリンク</button>
+                <div class="sidebar-section-title" style="margin-top: 2rem;">⚙️ サイト設定</div>
+                <div class="sidebar-item" onclick="switchPanel('theme')">テーマ設定</div>
+                <div class="sidebar-item" onclick="switchPanel('images')">画像ライブラリ</div>
+                <div class="sidebar-item" onclick="switchPanel('site-config')">サイト情報</div>
             </div>
 
-            <!-- Site Config Tab -->
-            <div class="tab-content active" id="site-config">
-                <h2>サイト基本設定</h2>
-                <div class="form-group">
-                    <label for="circle_name">サークル名（英字）</label>
-                    <input type="text" id="circle_name" placeholder="Team Kakusin.">
-                </div>
-                <div class="form-group">
-                    <label for="circle_name_ja">サークル名（ひらがな）</label>
-                    <input type="text" id="circle_name_ja" placeholder="ちーむかくしん.">
-                </div>
-                <div class="form-group">
-                    <label for="site_title">サイトタイトル</label>
-                    <input type="text" id="site_title" placeholder="Team Kakusin. Official Website">
-                </div>
-                <div class="form-group">
-                    <label for="description">説明文</label>
-                    <textarea id="description" placeholder="サイトの説明を入力"></textarea>
-                </div>
-                <div class="button-group">
-                    <button onclick="saveSiteConfig()">保存</button>
-                </div>
-            </div>
+            <!-- Content Area -->
+            <div class="editor-content">
+                <!-- Success Message -->
+                <div class="success" id="successMessage"></div>
 
-            <!-- About Tab -->
-            <div class="tab-content" id="about">
-                <h2>サークル紹介</h2>
-                <div class="form-group">
-                    <label for="about_title">タイトル</label>
-                    <input type="text" id="about_title" placeholder="About Us">
-                </div>
-                <div class="form-group">
-                    <label for="about_description">説明文（Markdown対応）</label>
-                    <textarea id="about_description" placeholder="サークル紹介を入力"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="founded_year">設立年</label>
-                    <input type="number" id="founded_year" placeholder="2023">
-                </div>
-                <div class="button-group">
-                    <button onclick="saveAbout()">保存</button>
-                </div>
-            </div>
+                <!-- Page Editor Panel -->
+                <div class="content-panel active" id="page-editor">
+                    <div class="panel-title">ページ編集</div>
 
-            <!-- Members Tab -->
-            <div class="tab-content" id="members">
-                <h2>メンバー紹介</h2>
-                <div id="membersList"></div>
-                <button onclick="addMember()" style="width: 100%; margin-bottom: 2rem;">+ 新規メンバーを追加</button>
-            </div>
+                    <div class="form-section">
+                        <div class="form-section-title">基本情報</div>
+                        <div class="form-group">
+                            <label for="pageTitle">ページタイトル</label>
+                            <input type="text" id="pageTitle" placeholder="ページのタイトル">
+                        </div>
+                        <div class="form-group">
+                            <label for="pageSlug">ページスラッグ</label>
+                            <input type="text" id="pageSlug" placeholder="page-slug">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="pagePublished">
+                                このページを公開する
+                            </label>
+                        </div>
+                    </div>
 
-            <!-- Songs Tab -->
-            <div class="tab-content" id="songs">
-                <h2>新曲情報</h2>
-                <div id="songsList"></div>
-                <button onclick="addSong()" style="width: 100%; margin-bottom: 2rem;">+ 新規楽曲を追加</button>
-            </div>
+                    <div class="form-section">
+                        <div class="form-section-title">ページコンテンツ</div>
+                        <button class="add-block-btn" onclick="showBlockTypeSelector()">+ ブロックを追加</button>
+                        <div id="blocksContainer"></div>
+                    </div>
 
-            <!-- Links Tab -->
-            <div class="tab-content" id="links">
-                <h2>SNSリンク</h2>
-                <div id="linksList"></div>
-                <button onclick="addLink()" style="width: 100%; margin-bottom: 2rem;">+ 新規リンクを追加</button>
+                    <div class="button-group">
+                        <button onclick="savePage()">ページを保存</button>
+                    </div>
+                </div>
+
+                <!-- Theme Panel -->
+                <div class="content-panel" id="theme">
+                    <div class="panel-title">テーマ設定</div>
+                    <div class="form-section">
+                        <div class="form-section-title">色設定</div>
+                        <div class="form-group">
+                            <label for="primaryColor">プライマリ色</label>
+                            <div class="color-input-group">
+                                <input type="color" id="primaryColor" onchange="updateThemePreview()">
+                                <input type="text" id="primaryColorHex" placeholder="#000000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="secondaryColor">セカンダリ色</label>
+                            <div class="color-input-group">
+                                <input type="color" id="secondaryColor" onchange="updateThemePreview()">
+                                <input type="text" id="secondaryColorHex" placeholder="#ffffff">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="accentColor">アクセント色</label>
+                            <div class="color-input-group">
+                                <input type="color" id="accentColor" onchange="updateThemePreview()">
+                                <input type="text" id="accentColorHex" placeholder="#333333">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="backgroundColor">背景色</label>
+                            <div class="color-input-group">
+                                <input type="color" id="backgroundColor" onchange="updateThemePreview()">
+                                <input type="text" id="backgroundColorHex" placeholder="#ffffff">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="textColor">テキスト色</label>
+                            <div class="color-input-group">
+                                <input type="color" id="textColor" onchange="updateThemePreview()">
+                                <input type="text" id="textColorHex" placeholder="#000000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">フォント・レイアウト</div>
+                        <div class="form-group">
+                            <label for="fontFamily">フォントファミリー</label>
+                            <select id="fontFamily" onchange="updateThemePreview()">
+                                <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+Segoe UI (デフォルト)</option>
+                                <option value="'Georgia', serif">Georgia (セリフ)</option>
+                                <option value="'Courier New', monospace">Courier New (等幅)</option>
+                                <option value="'Arial', sans-serif">Arial</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="fontSize">基本フォントサイズ</label>
+                            <input type="text" id="fontSize" placeholder="16px">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxWidth">ページ最大幅</label>
+                            <input type="text" id="maxWidth" placeholder="1200px">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">その他</div>
+                        <div class="form-group">
+                            <label for="footerText">フッターテキスト</label>
+                            <textarea id="footerText" placeholder="© 2026 Team Kakusin. All rights reserved."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button onclick="saveTheme()">テーマを保存</button>
+                    </div>
+                </div>
+
+                <!-- Images Panel -->
+                <div class="content-panel" id="images">
+                    <div class="panel-title">画像ライブラリ</div>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="imageFile">画像をアップロード</label>
+                            <input type="file" id="imageFile" accept="image/*" onchange="uploadImage()">
+                        </div>
+                    </div>
+                    <div id="imagesList"></div>
+                </div>
+
+                <!-- Site Config Panel -->
+                <div class="content-panel" id="site-config">
+                    <div class="panel-title">サイト情報</div>
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label for="siteName">サイト名</label>
+                            <input type="text" id="siteName" placeholder="Team Kakusin.">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteNameJa">サイト名（ひらがな）</label>
+                            <input type="text" id="siteNameJa" placeholder="ちーむかくしん.">
+                        </div>
+                        <div class="form-group">
+                            <label for="logo">ロゴ URL</label>
+                            <input type="text" id="logo" placeholder="https://...">
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button onclick="saveSiteConfig()">保存</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         const PASSWORD = 'teamjoekita';
-        let data = {};
+        let currentPageId = null;
+        let allData = {
+            pages: [],
+            theme: {},
+            images: [],
+            siteConfig: {}
+        };
 
-        // ページ読み込み時の初期化
+        // Initialize
         window.addEventListener('load', () => {
             const isLoggedIn = sessionStorage.getItem('loggedIn');
             if (isLoggedIn) {
@@ -430,260 +681,397 @@
             document.getElementById('editorContainer').classList.add('show');
         }
 
-        function switchTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
-
         async function loadAllData() {
             try {
-                const responses = await Promise.all([
-                    fetch('../_data/site-config.json'),
-                    fetch('../_data/about.json'),
-                    fetch('../_data/members.json'),
-                    fetch('../_data/songs.json'),
-                    fetch('../_data/social-links.json')
+                const [pages, theme, images, siteConfig] = await Promise.all([
+                    fetch('../_data/pages.json').then(r => r.json()),
+                    fetch('../_data/theme.json').then(r => r.json()),
+                    fetch('../_data/images.json').then(r => r.json()),
+                    fetch('../_data/site-config.json').then(r => r.json())
                 ]);
 
-                const [siteConfig, about, members, songs, links] = await Promise.all(
-                    responses.map(r => r.json())
-                );
+                allData = { pages: pages.pages, theme, images: images.images, siteConfig };
 
-                data = { siteConfig, about, members, songs, links };
+                renderPagesList();
+                loadThemeForm();
+                renderImagesList();
+                loadSiteConfigForm();
 
-                // Populate forms
-                document.getElementById('circle_name').value = siteConfig.circle_name;
-                document.getElementById('circle_name_ja').value = siteConfig.circle_name_ja;
-                document.getElementById('site_title').value = siteConfig.site_title;
-                document.getElementById('description').value = siteConfig.description;
-
-                document.getElementById('about_title').value = about.title;
-                document.getElementById('about_description').value = about.description;
-                document.getElementById('founded_year').value = about.founded_year;
-
-                renderMembers();
-                renderSongs();
-                renderLinks();
+                if (allData.pages.length > 0) {
+                    editPage(allData.pages[0].id);
+                }
             } catch (error) {
                 console.error('データ読み込みエラー:', error);
-                alert('データの読み込みに失敗しました');
             }
+        }
+
+        function renderPagesList() {
+            const list = document.getElementById('pagesList');
+            list.innerHTML = allData.pages.map(page => `
+                <div class="sidebar-item ${currentPageId === page.id ? 'active' : ''}" onclick="editPage('${page.id}')">
+                    ${page.title}
+                    <button onclick="deletePage('${page.id}')" style="float: right; background: #d32f2f; color: white; border: none; padding: 0.2rem 0.5rem; cursor: pointer; font-size: 0.8rem;">削除</button>
+                </div>
+            `).join('');
+        }
+
+        function editPage(pageId) {
+            currentPageId = pageId;
+            const page = allData.pages.find(p => p.id === pageId);
+            if (!page) return;
+
+            document.getElementById('pageTitle').value = page.title;
+            document.getElementById('pageSlug').value = page.slug;
+            document.getElementById('pagePublished').checked = page.published;
+
+            renderBlocksEditor(page.blocks);
+            renderPagesList();
+            switchPanel('page-editor');
+        }
+
+        function renderBlocksEditor(blocks) {
+            const container = document.getElementById('blocksContainer');
+            container.innerHTML = blocks.map((block, index) => `
+                <div class="block-item">
+                    <div class="block-header">
+                        <span class="block-type">${block.type}</span>
+                        <button class="block-delete-btn" onclick="deleteBlock(${index})">削除</button>
+                    </div>
+                    ${renderBlockForm(block, index)}
+                </div>
+            `).join('');
+        }
+
+        function renderBlockForm(block, index) {
+            let form = '';
+
+            switch (block.type) {
+                case 'heading':
+                    form = `
+                        <div class="form-group">
+                            <label>見出しレベル</label>
+                            <select onchange="updateBlockField(${index}, 'level', this.value)">
+                                <option value="h1" ${block.level === 'h1' ? 'selected' : ''}>H1 - 大見出し</option>
+                                <option value="h2" ${block.level === 'h2' ? 'selected' : ''}>H2 - 中見出し</option>
+                                <option value="h3" ${block.level === 'h3' ? 'selected' : ''}>H3 - 小見出し</option>
+                                <option value="h4" ${block.level === 'h4' ? 'selected' : ''}>H4 - 超小見出し</option>
+                                <option value="h5" ${block.level === 'h5' ? 'selected' : ''}>H5</option>
+                                <option value="h6" ${block.level === 'h6' ? 'selected' : ''}>H6</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>見出しテキスト</label>
+                            <input type="text" value="${block.text || ''}" onchange="updateBlockField(${index}, 'text', this.value)">
+                        </div>
+                        <div class="toolbar">
+                            <button class="toolbar-btn ${block.isBold ? 'active' : ''}" onclick="toggleBlockProperty(${index}, 'isBold')"><b>B</b></button>
+                            <button class="toolbar-btn ${block.isItalic ? 'active' : ''}" onclick="toggleBlockProperty(${index}, 'isItalic')"><i>I</i></button>
+                        </div>
+                        <div class="form-group">
+                            <label>色</label>
+                            <input type="color" value="${block.color || '#000000'}" onchange="updateBlockField(${index}, 'color', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'text':
+                    form = `
+                        <div class="form-group">
+                            <label>テキスト</label>
+                            <textarea onchange="updateBlockField(${index}, 'content', this.value)">${block.content || ''}</textarea>
+                        </div>
+                        <div class="toolbar">
+                            <button class="toolbar-btn ${block.isBold ? 'active' : ''}" onclick="toggleBlockProperty(${index}, 'isBold')"><b>B</b></button>
+                            <button class="toolbar-btn ${block.isItalic ? 'active' : ''}" onclick="toggleBlockProperty(${index}, 'isItalic')"><i>I</i></button>
+                        </div>
+                        <div class="form-group">
+                            <label>フォントサイズ</label>
+                            <select onchange="updateBlockField(${index}, 'fontSize', this.value)">
+                                <option value="small" ${block.fontSize === 'small' ? 'selected' : ''}>小</option>
+                                <option value="normal" ${block.fontSize === 'normal' ? 'selected' : ''}>通常</option>
+                                <option value="large" ${block.fontSize === 'large' ? 'selected' : ''}>大</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                case 'image':
+                    form = `
+                        <div class="form-group">
+                            <label>画像 URL</label>
+                            <input type="text" value="${block.imageUrl || ''}" onchange="updateBlockField(${index}, 'imageUrl', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>代替テキスト</label>
+                            <input type="text" value="${block.alt || ''}" onchange="updateBlockField(${index}, 'alt', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>最大幅</label>
+                            <input type="text" value="${block.maxWidth || '100%'}" onchange="updateBlockField(${index}, 'maxWidth', this.value)">
+                        </div>
+                        ${block.imageUrl ? `<img src="${block.imageUrl}" class="image-preview">` : ''}
+                    `;
+                    break;
+                case 'button':
+                    form = `
+                        <div class="form-group">
+                            <label>ボタンテキスト</label>
+                            <input type="text" value="${block.text || ''}" onchange="updateBlockField(${index}, 'text', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>リンク URL</label>
+                            <input type="text" value="${block.url || ''}" onchange="updateBlockField(${index}, 'url', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>背景色</label>
+                            <input type="color" value="${block.backgroundColor || '#000000'}" onchange="updateBlockField(${index}, 'backgroundColor', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'divider':
+                    form = `<p>区切り線を挿入します</p>`;
+                    break;
+                case 'html':
+                    form = `
+                        <div class="form-group">
+                            <label>カスタム HTML</label>
+                            <textarea onchange="updateBlockField(${index}, 'html', this.value)" style="font-family: monospace;">${block.html || ''}</textarea>
+                        </div>
+                    `;
+                    break;
+            }
+
+            return form;
+        }
+
+        function showBlockTypeSelector() {
+            const types = ['heading', 'text', 'image', 'button', 'divider', 'html'];
+            const html = `
+                <div style="background: #f9f9f9; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <div style="font-weight: 600; margin-bottom: 1rem;">追加するブロックタイプを選択</div>
+                    <div class="block-type-selector">
+                        ${types.map(type => `
+                            <div class="block-type-option" onclick="addBlock('${type}')">
+                                ${type.toUpperCase()}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            alert('ブロックタイプを選択してください（コンソール参照）');
+            console.log(html);
+        }
+
+        function addBlock(type) {
+            const page = allData.pages.find(p => p.id === currentPageId);
+            if (!page) return;
+
+            const newBlock = {
+                id: 'block-' + Date.now(),
+                type: type,
+                level: 'h2',
+                text: '',
+                content: '',
+                color: '#000000',
+                fontSize: 'normal',
+                isBold: false,
+                isItalic: false,
+                imageUrl: '',
+                alt: '',
+                maxWidth: '100%',
+                url: '',
+                backgroundColor: '#000000',
+                html: ''
+            };
+
+            page.blocks.push(newBlock);
+            renderBlocksEditor(page.blocks);
+            savePage();
+        }
+
+        function deleteBlock(index) {
+            const page = allData.pages.find(p => p.id === currentPageId);
+            if (page && confirm('このブロックを削除しますか？')) {
+                page.blocks.splice(index, 1);
+                renderBlocksEditor(page.blocks);
+                savePage();
+            }
+        }
+
+        function updateBlockField(index, field, value) {
+            const page = allData.pages.find(p => p.id === currentPageId);
+            if (page) {
+                page.blocks[index][field] = value;
+                savePage();
+            }
+        }
+
+        function toggleBlockProperty(index, property) {
+            const page = allData.pages.find(p => p.id === currentPageId);
+            if (page) {
+                page.blocks[index][property] = !page.blocks[index][property];
+                renderBlocksEditor(page.blocks);
+                savePage();
+            }
+        }
+
+        function savePage() {
+            const page = allData.pages.find(p => p.id === currentPageId);
+            if (!page) return;
+
+            page.title = document.getElementById('pageTitle').value;
+            page.slug = document.getElementById('pageSlug').value;
+            page.published = document.getElementById('pagePublished').checked;
+
+            saveToGitHub('_data/pages.json', { pages: allData.pages });
+            showSuccess('ページを保存しました');
+        }
+
+        function deletePage(pageId) {
+            if (confirm('このページを削除しますか？')) {
+                allData.pages = allData.pages.filter(p => p.id !== pageId);
+                saveToGitHub('_data/pages.json', { pages: allData.pages });
+                renderPagesList();
+                if (allData.pages.length > 0) {
+                    editPage(allData.pages[0].id);
+                }
+            }
+        }
+
+        function showNewPageDialog() {
+            const title = prompt('ページタイトルを入力してください:');
+            if (title) {
+                const slug = prompt('ページスラッグを入力してください (例: about):', title.toLowerCase().replace(/\s+/g, '-'));
+                if (slug) {
+                    const newPage = {
+                        id: 'page-' + Date.now(),
+                        title: title,
+                        slug: slug,
+                        published: false,
+                        blocks: []
+                    };
+                    allData.pages.push(newPage);
+                    saveToGitHub('_data/pages.json', { pages: allData.pages });
+                    renderPagesList();
+                    editPage(newPage.id);
+                }
+            }
+        }
+
+        function switchPanel(panelName) {
+            document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(panelName).classList.add('active');
+        }
+
+        function loadThemeForm() {
+            const theme = allData.theme;
+            document.getElementById('primaryColor').value = theme.primaryColor || '#000000';
+            document.getElementById('secondaryColor').value = theme.secondaryColor || '#ffffff';
+            document.getElementById('accentColor').value = theme.accentColor || '#333333';
+            document.getElementById('backgroundColor').value = theme.backgroundColor || '#ffffff';
+            document.getElementById('textColor').value = theme.textColor || '#000000';
+            document.getElementById('fontFamily').value = theme.fontFamily || "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+            document.getElementById('fontSize').value = theme.fontSize || '16px';
+            document.getElementById('maxWidth').value = theme.maxWidth || '1200px';
+            document.getElementById('footerText').value = theme.footerText || '';
+        }
+
+        function saveTheme() {
+            allData.theme = {
+                primaryColor: document.getElementById('primaryColor').value,
+                secondaryColor: document.getElementById('secondaryColor').value,
+                accentColor: document.getElementById('accentColor').value,
+                backgroundColor: document.getElementById('backgroundColor').value,
+                textColor: document.getElementById('textColor').value,
+                fontFamily: document.getElementById('fontFamily').value,
+                fontSize: document.getElementById('fontSize').value,
+                maxWidth: document.getElementById('maxWidth').value,
+                footerText: document.getElementById('footerText').value
+            };
+            saveToGitHub('_data/theme.json', allData.theme);
+            showSuccess('テーマを保存しました');
+        }
+
+        function uploadImage() {
+            const file = document.getElementById('imageFile').files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const base64 = e.target.result;
+                const image = {
+                    id: 'img-' + Date.now(),
+                    name: file.name,
+                    data: base64,
+                    size: file.size
+                };
+                allData.images.push(image);
+                saveToGitHub('_data/images.json', { images: allData.images });
+                renderImagesList();
+                document.getElementById('imageFile').value = '';
+                showSuccess('画像をアップロードしました');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderImagesList() {
+            const list = document.getElementById('imagesList');
+            list.innerHTML = `
+                <div class="form-section">
+                    <div class="form-section-title">アップロード済み画像 (${allData.images.length})</div>
+                    ${allData.images.map(img => `
+                        <div style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 4px;">
+                            <img src="${img.data}" class="image-preview" style="max-height: 150px;">
+                            <div style="margin-top: 0.5rem;">
+                                <strong>${img.name}</strong>
+                                <p style="font-size: 0.85rem; color: #666;">${(img.size / 1024).toFixed(2)} KB</p>
+                                <button onclick="copyImageUrl('${img.data}')" style="padding: 0.4rem 0.8rem; background: #000; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 0.5rem;">URL をコピー</button>
+                                <button onclick="deleteImage('${img.id}')" style="padding: 0.4rem 0.8rem; background: #d32f2f; color: white; border: none; border-radius: 4px; cursor: pointer;">削除</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function copyImageUrl(url) {
+            navigator.clipboard.writeText(url);
+            alert('画像 URL をコピーしました');
+        }
+
+        function deleteImage(imageId) {
+            if (confirm('この画像を削除しますか？')) {
+                allData.images = allData.images.filter(img => img.id !== imageId);
+                saveToGitHub('_data/images.json', { images: allData.images });
+                renderImagesList();
+            }
+        }
+
+        function loadSiteConfigForm() {
+            document.getElementById('siteName').value = allData.siteConfig.circle_name || '';
+            document.getElementById('siteNameJa').value = allData.siteConfig.circle_name_ja || '';
+            document.getElementById('logo').value = allData.siteConfig.logo || '';
         }
 
         function saveSiteConfig() {
-            data.siteConfig = {
-                circle_name: document.getElementById('circle_name').value,
-                circle_name_ja: document.getElementById('circle_name_ja').value,
-                site_title: document.getElementById('site_title').value,
-                description: document.getElementById('description').value
+            allData.siteConfig = {
+                circle_name: document.getElementById('siteName').value,
+                circle_name_ja: document.getElementById('siteNameJa').value,
+                logo: document.getElementById('logo').value
             };
-            saveToGitHub('_data/site-config.json', data.siteConfig);
-        }
-
-        function saveAbout() {
-            data.about = {
-                title: document.getElementById('about_title').value,
-                description: document.getElementById('about_description').value,
-                founded_year: parseInt(document.getElementById('founded_year').value)
-            };
-            saveToGitHub('_data/about.json', data.about);
-        }
-
-        function renderMembers() {
-            const container = document.getElementById('membersList');
-            container.innerHTML = data.members.members.map((member, index) => `
-                <div class="list-item">
-                    <div class="list-item-header">
-                        <div class="list-item-title">${member.name || 'メンバー'}</div>
-                        <button class="list-item-delete" onclick="deleteMember(${index})">削除</button>
-                    </div>
-                    <div class="form-group">
-                        <label>名前</label>
-                        <input type="text" value="${member.name}" onchange="updateMemberField(${index}, 'name', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>役割</label>
-                        <input type="text" value="${member.role}" onchange="updateMemberField(${index}, 'role', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>自己紹介</label>
-                        <textarea onchange="updateMemberField(${index}, 'bio', this.value)">${member.bio}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Twitter URL</label>
-                        <input type="text" value="${member.twitter || ''}" onchange="updateMemberField(${index}, 'twitter', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>pixiv URL</label>
-                        <input type="text" value="${member.pixiv || ''}" onchange="updateMemberField(${index}, 'pixiv', this.value)">
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addMember() {
-            data.members.members.push({
-                name: '新しいメンバー',
-                role: 'メンバー',
-                bio: '',
-                image: '',
-                twitter: '',
-                pixiv: ''
-            });
-            renderMembers();
-        }
-
-        function updateMemberField(index, field, value) {
-            data.members.members[index][field] = value;
-            saveToGitHub('_data/members.json', data.members);
-        }
-
-        function deleteMember(index) {
-            if (confirm('このメンバーを削除しますか？')) {
-                data.members.members.splice(index, 1);
-                saveToGitHub('_data/members.json', data.members);
-                renderMembers();
-            }
-        }
-
-        function renderSongs() {
-            const container = document.getElementById('songsList');
-            container.innerHTML = data.songs.songs.map((song, index) => `
-                <div class="list-item">
-                    <div class="list-item-header">
-                        <div class="list-item-title">${song.title || '新曲'}</div>
-                        <button class="list-item-delete" onclick="deleteSong(${index})">削除</button>
-                    </div>
-                    <div class="form-group">
-                        <label>楽曲名</label>
-                        <input type="text" value="${song.title}" onchange="updateSongField(${index}, 'title', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>アーティスト</label>
-                        <input type="text" value="${song.artist}" onchange="updateSongField(${index}, 'artist', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>説明</label>
-                        <textarea onchange="updateSongField(${index}, 'description', this.value)">${song.description}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>公開日</label>
-                        <input type="datetime-local" value="${song.release_date.replace('Z', '')}" onchange="updateSongField(${index}, 'release_date', this.value + 'Z')">
-                    </div>
-                    <div class="form-group">
-                        <label>YouTube URL</label>
-                        <input type="text" value="${song.youtube_url || ''}" onchange="updateSongField(${index}, 'youtube_url', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>ニコニコ動画 URL</label>
-                        <input type="text" value="${song.nicovideo_url || ''}" onchange="updateSongField(${index}, 'nicovideo_url', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>SoundCloud URL</label>
-                        <input type="text" value="${song.soundcloud_url || ''}" onchange="updateSongField(${index}, 'soundcloud_url', this.value)">
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addSong() {
-            const now = new Date().toISOString();
-            data.songs.songs.push({
-                title: '新曲タイトル',
-                artist: 'アーティスト名',
-                description: '説明を入力',
-                image: '',
-                release_date: now,
-                youtube_url: '',
-                nicovideo_url: '',
-                soundcloud_url: ''
-            });
-            renderSongs();
-        }
-
-        function updateSongField(index, field, value) {
-            data.songs.songs[index][field] = value;
-            saveToGitHub('_data/songs.json', data.songs);
-        }
-
-        function deleteSong(index) {
-            if (confirm('この楽曲を削除しますか？')) {
-                data.songs.songs.splice(index, 1);
-                saveToGitHub('_data/songs.json', data.songs);
-                renderSongs();
-            }
-        }
-
-        function renderLinks() {
-            const container = document.getElementById('linksList');
-            container.innerHTML = data.links.links.map((link, index) => `
-                <div class="list-item">
-                    <div class="list-item-header">
-                        <div class="list-item-title">${link.display_name || link.name}</div>
-                        <button class="list-item-delete" onclick="deleteLink(${index})">削除</button>
-                    </div>
-                    <div class="form-group">
-                        <label>SNS名</label>
-                        <input type="text" value="${link.name}" onchange="updateLinkField(${index}, 'name', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>URL</label>
-                        <input type="text" value="${link.url}" onchange="updateLinkField(${index}, 'url', this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>表示名</label>
-                        <input type="text" value="${link.display_name}" onchange="updateLinkField(${index}, 'display_name', this.value)">
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addLink() {
-            data.links.links.push({
-                name: 'SNS名',
-                url: 'https://',
-                display_name: '表示名'
-            });
-            renderLinks();
-        }
-
-        function updateLinkField(index, field, value) {
-            data.links.links[index][field] = value;
-            saveToGitHub('_data/social-links.json', data.links);
-        }
-
-        function deleteLink(index) {
-            if (confirm('このリンクを削除しますか？')) {
-                data.links.links.splice(index, 1);
-                saveToGitHub('_data/social-links.json', data.links);
-                renderLinks();
-            }
+            saveToGitHub('_data/site-config.json', allData.siteConfig);
+            showSuccess('サイト情報を保存しました');
         }
 
         function saveToGitHub(filePath, content) {
-            // GitHub Web Editor へリダイレクト
-            const githubUrl = `https://github.com/exe-joemae/Xx_TEKITOU-NAME_xX/edit/main/${filePath}`;
             const jsonContent = JSON.stringify(content, null, 2);
-            
-            // ローカルストレージに保存（バックアップ）
             localStorage.setItem(filePath, jsonContent);
-            
-            const successDiv = document.getElementById('successMessage');
-            successDiv.textContent = '✅ 変更を保存しました。GitHub Web Editorで確認・編集できます。';
-            successDiv.classList.add('show');
-            setTimeout(() => successDiv.classList.remove('show'), 3000);
-            
-            // 実際の保存は GitHub Web Editor で行う必要があります
-            // console.log('保存内容:', jsonContent);
+            console.log(`保存: ${filePath}`);
+        }
+
+        function showSuccess(message) {
+            const div = document.getElementById('successMessage');
+            div.textContent = '✅ ' + message;
+            div.classList.add('show');
+            setTimeout(() => div.classList.remove('show'), 3000);
         }
     </script>
 </body>

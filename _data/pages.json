@@ -1,0 +1,30 @@
+{
+  "pages": [
+    {
+      "id": "home",
+      "title": "ホーム",
+      "slug": "home",
+      "published": true,
+      "blocks": [
+        {
+          "id": "hero-1",
+          "type": "hero",
+          "title": "Team Kakusin.",
+          "subtitle": "ちーむかくしん。",
+          "backgroundImage": ""
+        },
+        {
+          "id": "text-1",
+          "type": "text",
+          "heading": "ようこそ",
+          "headingLevel": "h2",
+          "content": "同人サークル Team Kakusin. の公式サイトへようこそ。",
+          "textColor": "",
+          "fontSize": "normal",
+          "isBold": false,
+          "isItalic": false
+        }
+      ]
+    }
+  ]
+}
